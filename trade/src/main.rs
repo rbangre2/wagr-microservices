@@ -13,6 +13,6 @@ async fn main() -> mongodb::error::Result<()> {
         .database("admin")
         .run_command(doc! {"ping": 1}, None)
         .await?;
-    println!("Pinged your deployment. You successfully connected to MongoDB!");
+    println!("Pinged your deployment. Successfully connected to MongoDB!");
     Ok(())
 }
