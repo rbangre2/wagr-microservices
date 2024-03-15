@@ -1,15 +1,6 @@
-[package]
-name = "main"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-rust_decimal = "1.34"
-rust_decimal_macros = "1.34"
-tokio = { version = "1", features = ["full"] }
-mongodb = "2.8.1"
-dotenv = "0.15.0"
-envy = "0.4.2"
-bson = "2.0.0" 
+[workspace]
+members= [
+	"trade-service",
+	"lib/orderbook",
+	"lib/engine", "lib/trade_pair", "lib/order", "lib/limit", "lib/trade_pair"
+]

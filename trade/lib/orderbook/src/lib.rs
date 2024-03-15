@@ -1,7 +1,7 @@
 #![allow(dead_code)]
-use super::limit::Limit;
-use super::order::BidOrAsk;
-use super::order::Order;
+use limit::Limit;
+use order::BidOrAsk;
+use order::Order;
 use rust_decimal::Decimal;
 use std::collections::HashMap;
 
@@ -63,20 +63,16 @@ impl OrderBook {
 
     pub fn add_limit_order(&mut self, price: Decimal, order: Order) {
         match order.bid_or_ask {
-            BidOrAsk::Bid => {
-                let limit = self.bids.get_mut(&price);
-
-                match self.bids.get_mut(&price) {
-                    Some(limit) => {
-                        limit.add_order(order);
-                    }
-                    None => {
-                        let mut limit = Limit::new(price);
-                        limit.add_order(order);
-                        self.bids.insert(price, limit);
-                    }
+            BidOrAsk::Bid => match self.bids.get_mut(&price) {
+                Some(limit) => {
+                    limit.add_order(order);
                 }
-            }
+                None => {
+                    let mut limit = Limit::new(price);
+                    limit.add_order(order);
+                    self.bids.insert(price, limit);
+                }
+            },
             BidOrAsk::Ask => match self.asks.get_mut(&price) {
                 Some(limit) => limit.add_order(order),
                 None => {
@@ -93,7 +89,6 @@ impl OrderBook {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    use crate::matching_engine::trade_pair::TradingPair;
     use rust_decimal_macros::dec;
 
     #[test]
@@ -213,9 +208,6 @@ pub mod tests {
     #[test]
     fn orderbook_removes_empty_orders_after_filling() {
         let mut orderbook = OrderBook::new();
-        let pair = TradingPair::new("BTC".to_string(), "USD".to_string());
-        // Assuming the MatchingEngine and TradingPair structures are accessible
-        // and properly implemented in your module structure.
 
         // Add ask orders
         orderbook.add_limit_order(dec!(100), Order::new(BidOrAsk::Ask, 10.0));

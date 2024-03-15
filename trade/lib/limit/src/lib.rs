@@ -1,5 +1,4 @@
-use super::order::BidOrAsk;
-use super::order::Order;
+use order::Order;
 use rust_decimal::Decimal;
 
 #[derive(Debug)]
@@ -58,7 +57,7 @@ impl Limit {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    use crate::orderbook::orderbook::OrderBook;
+    use order::BidOrAsk;
     use rust_decimal_macros::dec;
 
     #[test]

@@ -1,8 +1,8 @@
-use super::trade_pair::TradingPair;
-use crate::orderbook::order::Order;
-use crate::orderbook::orderbook::OrderBook;
+use order::Order;
+use orderbook::OrderBook;
 use rust_decimal::Decimal;
 use std::collections::HashMap;
+use trade_pair::TradingPair;
 
 pub struct MatchingEngine {
     pub orderbooks: HashMap<TradingPair, OrderBook>,
@@ -70,9 +70,9 @@ impl MatchingEngine {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::matching_engine::trade_pair::TradingPair;
-    use crate::orderbook::order::{BidOrAsk, Order};
+    use order::{BidOrAsk, Order};
     use rust_decimal_macros::dec;
+    use trade_pair::TradingPair;
 
     #[test]
     fn create_market() {
