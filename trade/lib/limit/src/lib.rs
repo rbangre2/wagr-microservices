@@ -1,17 +1,25 @@
+use serde::{Serialize, Deserialize};
+use mongodb::bson::{oid::ObjectId, DateTime as BsonDateTime};
 use order::Order;
 use rust_decimal::Decimal;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Limit {
+    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<ObjectId>,
     pub price: Decimal,
     pub orders: Vec<Order>,
+    pub created_at:  BsonDateTime,
 }
 
+
 impl Limit {
-    pub fn new(price: Decimal) -> Limit {
-        Limit {
+    pub fn new(price: Decimal) -> Self {
+        Self {
+            id: None,
             price,
             orders: Vec::new(),
+            created_at: BsonDateTime::now(),
         }
     }
 
