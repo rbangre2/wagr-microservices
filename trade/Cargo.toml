@@ -1,6 +1,0 @@
-[workspace]
-members= [
-	"trade-service",
-	"lib/orderbook",
-	"lib/engine", "lib/trade_pair", "lib/order", "lib/limit", "lib/trade_pair"
-]
