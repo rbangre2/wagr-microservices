@@ -13,7 +13,7 @@ import (
 func main() {
 	mongodbURI := os.Getenv("MONGODB_URI")
 	if mongodbURI == "" {
-		log.Fatal("MONGODB_URI is not set in .env file")
+		log.Fatal("MONGODB_URI environment variable is not set")
 	}
 
 	// Establish a connection to MongoDB
@@ -30,7 +30,6 @@ func main() {
 		if r.Method == http.MethodPost {
 			tradingPairHandler.CreateTradingPair(w, r)
 		} else {
-			// Respond with an error if the request method is not POST
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		}
 	})
@@ -44,9 +43,16 @@ func main() {
 		}
 	})
 
+	// Get the PORT environment variable from the runtime environment
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default to port 8080 if no PORT environment variable is found
+		log.Println("Defaulting to port " + port)
+	}
+
 	// Start listening for HTTP requests
-	log.Println("Server starting on :8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	log.Println("Server starting on port " + port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
