@@ -8,17 +8,9 @@ import (
 	"trade-service/internal/db"
 	"trade-service/internal/handlers"
 	"trade-service/internal/services"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables
-	if err := godotenv.Load("../../.env"); err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	// Retrieve MongoDB URI from environment variables
 	mongodbURI := os.Getenv("MONGODB_URI")
 	if mongodbURI == "" {
 		log.Fatal("MONGODB_URI is not set in .env file")
