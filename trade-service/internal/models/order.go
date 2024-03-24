@@ -6,24 +6,23 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type OrderType string
 type BidOrAsk string
 
 const (
-    Bid BidOrAsk = "Bid"
-    Ask BidOrAsk = "Ask"
+	Market OrderType = "market"
+	Limit  OrderType = "limit"
+	Bid    BidOrAsk  = "bid"
+	Ask    BidOrAsk  = "ask"
 )
 
-type OrderType string
-const (
-	Market OrderType = "Market"
-	Limit OrderType = "Limit"
-)
-// Order represents a trading order.
 type Order struct {
-    ID        *primitive.ObjectID `bson:"_id,omitempty"`
-    UID       *string             `bson:"uid,omitempty"`
-    Size      float64             `bson:"size"`
-    BidOrAsk  BidOrAsk            `bson:"bid_or_ask"`
-    OrderType OrderType           `bson:"order_type"`
-    CreatedAt *time.Time          `bson:"created_at,omitempty"`
+	ID            primitive.ObjectID `bson:"_id,omitempty"`
+	TradingPairID primitive.ObjectID `bson:"tradingPairId,omitempty"`
+	UserID           string             `bson:"uid"`
+	Size          float64            `bson:"size"`
+	Price         *float64           `bson:"price,omitempty"` // Nil for market orders
+	Type          OrderType          `bson:"type"`
+	Side          BidOrAsk           `bson:"side"`
+	CreatedAt     time.Time          `bson:"created_at"`
 }

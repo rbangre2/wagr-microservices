@@ -30,6 +30,8 @@ func main() {
 	// Initialize services and handlers
 	tradingPairService := services.NewTradingPairService(client)
 	tradingPairHandler := handlers.NewTradingPairHandler(tradingPairService)
+	orderService := services.NewOrderService(client)
+	orderHandler := handlers.NewOrderHandler(orderService)
 
 	// Define HTTP routes
 	http.HandleFunc("/market", func(w http.ResponseWriter, r *http.Request) {
@@ -37,6 +39,15 @@ func main() {
 			tradingPairHandler.CreateTradingPair(w, r)
 		} else {
 			// Respond with an error if the request method is not POST
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		}
+	})
+
+	http.HandleFunc("/order", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			orderHandler.CreateOrder(w, r)
+		default:
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		}
 	})
